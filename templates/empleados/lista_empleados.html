@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Lista de Empleados</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+    }
+
+    header {
+      background-color: #343a40;
+      color: #fff;
+      padding: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header a {
+      color: #ffc107;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .btn {
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border: none;
+      border-radius: 4px;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-success {
+      background-color: #198754;
+      color: white;
+    }
+
+    .btn-primary {
+      background-color: #0d6efd;
+      color: white;
+    }
+    
+    .btn-success{border: 1px solid rgb(30, 188, 107);
+      color:rgb(30, 188, 107);
+      background-color: transparent;}
+
+    .btn-outline-primary {
+      border: 1px solid #0d6efd;
+      color: #0d6efd;
+      background-color: transparent;
+    }
+
+    .btn-outline-danger {
+      border: 1px solid #dc3545;
+      color: #dc3545;
+      background-color: transparent;
+    }
+
+    .btn-outline-info {
+      border: 1px solid #0dcaf0;
+      color: #0dcaf0;
+      background-color: transparent;
+    }
+
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    select {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+
+    .form-group {
+      flex: 1 1 30%;
+      min-width: 200px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+    }
+
+    th, td {
+      padding: 0.75rem;
+      border: 1px solid #dee2e6;
+      text-align: center;
+    }
+
+    thead {
+      background-color: #f1f1f1;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      form {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <h1 class="h3 m-0">Lista de empleados</h1>
+      <nav>
+        <a href="{% url 'home' %}">HOME</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+    <div style="margin-bottom: 1rem;">
+      <a href="{% url 'crear_empleado' %}" class="btn btn-success">+ Agregar</a>
+    </div>
+
+    <form method="get">
+  <div class="form-group">
+    <label for="apellido">Buscar por apellido</label>
+    <input type="text" name="apellido" id="apellido" value="{{ request.GET.apellido }}">
+  </div>
+  <div class="form-group">
+    <label for="departamento">Departamento</label>
+    <select name="departamento" id="departamento">
+      <option value="">Todos</option>
+      {% for depto in departamentos %}
+        <option value="{{ depto.id }}" {% if request.GET.departamento == depto.id|stringformat:"s" %}selected{% endif %}>{{ depto.nombre }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="form-group">
+      <button type="submit" class="btn btn-primary">Buscar</button>
+      <a href="{% url 'lista_empleados' %}" class="btn btn-outline-danger">Limpiar</a>
+    </div>
+</form>
+
+
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Departamento</th>
+          <th>Puesto</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for empleado in lista_empleados %}
+        <tr>
+          <td>{{ empleado.nombre }}</td>
+          <td>{{ empleado.apellido }}</td>
+          <td>{{ empleado.get_trabajo_display }}</td>
+          <td>{{ empleado.departamento.nombre }}</td>
+          <td>
+            <a href="{% url 'editar_empleado' empleado.id %}" class="btn btn-outline-primary btn-sm">Editar</a>
+            <a href="{% url 'eliminar_empleado' empleado.id %}" class="btn btn-outline-danger btn-sm">Eliminar</a>
+            <a href="{% url 'detalle_empleado' empleado.id %}" class="btn btn-outline-info btn-sm">Detalle</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="4" class="text-center">No se encontraron empleados.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
+
+
+
+
+
+              

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Eliminar Departamento</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #f8f9fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      font-size: 1.25rem;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    form {
+      text-align: center;
+    }
+
+    .btn {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin: 0 0.5rem;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-danger {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background-color: #c82333;
+    }
+
+    .btn-secondary {
+      background-color: #6c757d;
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background-color: #5a6268;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Eliminar Departamento</h1>
+    <p>¿Estás seguro que quieres eliminar el departamento <strong>{{ object.nombre }}</strong>?</p>
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+      <a href="{% url 'lista_departamentos' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+  </div>
+</body>
+</html>
+
+
+

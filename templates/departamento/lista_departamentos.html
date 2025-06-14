@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Lista de Departamentos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f8f9fa;
+    }
+
+    header {
+      background-color: #343a40;
+      color: white;
+      padding: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    header .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header nav a {
+      color: #ffc107;
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      text-align: center;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 0.9rem;
+      border-radius: 4px;
+    }
+
+    .btn-primary {
+      background-color: #0d6efd;
+      color: white;
+    }
+    
+    .btn-success{
+      border: 1px solid  #198754;
+      color: #198754;
+      background-color: transparent;
+    }
+
+    .btn-outline-primary {
+      border: 1px solid #0d6efd;
+      color: #0d6efd;
+      background-color: transparent;
+    }
+
+    .btn-outline-danger {
+      border: 1px solid #dc3545;
+      color: #dc3545;
+      background-color: transparent;
+    }
+
+    .btn-sm {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.8rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: center;
+      background-color: white;
+    }
+
+    th, td {
+      border: 1px solid #dee2e6;
+      padding: 0.75rem;
+    }
+
+    thead {
+      background-color: #e9ecef;
+    }
+
+    .fst-italic {
+      font-style: italic;
+    }
+
+    .text-muted {
+      color: #6c757d;
+    }
+
+    .mb-3 {
+      margin-bottom: 1rem;
+    }
+
+    .align-middle {
+      vertical-align: middle;
+    }
+
+    .filter-form {
+      margin-bottom: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1 class="h3 m-0">Lista departamentos</h1>
+      <nav>
+        <a href="{% url 'home' %}">HOME</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+    <form method="get" class="filter-form">
+      <label for="activo">Filtrar por estado:</label>
+      <select name="activo" id="activo">
+        <option value="">-- Todos --</option>
+        <option value="true" {% if request.GET.activo == "true" %}selected{% endif %}>Activos</option>
+        <option value="false" {% if request.GET.activo == "false" %}selected{% endif %}>Inactivos</option>
+      </select>
+      <button type="submit" class="btn btn-sm btn-primary">Buscar</button>
+    </form>
+
+    <div class="mb-3">
+      <a href="{% url 'crear_departamento' %}" class="btn btn-success">+ Agregar</a>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Sigla</th>
+          <th>Piso</th>
+          <th>Oficina</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for departamento in departamentos %}
+        <tr>
+          <td>{{ departamento.nombre }}</td>
+          <td>{{ departamento.sigla }}</td>
+          <td>{{ departamento.piso }}</td>
+          <td>{{ departamento.oficina }}</td>
+          <td>
+            <a href="{% url 'editar_departamento' departamento.id %}" class="btn btn-sm btn-outline-primary">Editar</a>
+            <a href="{% url 'eliminar_departamento' departamento.id %}" class="btn btn-sm btn-outline-danger">Eliminar</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5" class="fst-italic text-muted">No hay departamentos registrados.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
+

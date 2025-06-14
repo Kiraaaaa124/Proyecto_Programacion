@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>{% if object %}Editar Empleado{% else %}Crear Empleado{% endif %}</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f2f5;
+      padding: 1rem;
+      color: #333;
+    }
+
+    .container {
+      max-width: 650px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      border: 1px solid #ccc;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      text-align: center;
+      color: #222;
+    }
+
+    label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="date"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #bbb;
+      border-radius: 0.3rem;
+      font-size: 1rem;
+      margin-bottom: 0.8rem;
+      box-sizing: border-box;
+      font-family: inherit;
+    }
+
+    button[type="submit"] {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.3rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #218838;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 1rem;
+      text-decoration: none;
+      color: #007bff;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .errorlist {
+      color: red;
+      margin: 0 0 0.5rem 0;
+      list-style-type: none;
+      padding-left: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>{% if object %}Editar Empleado{% else %}Crear Empleado{% endif %}</h1>
+    <form method="post">
+      {% csrf_token %}
+      
+      {{ form.non_field_errors }}
+
+      <label for="{{ form.nombre.id_for_label }}">Nombre</label>
+      {{ form.nombre }}
+      {{ form.nombre.errors }}
+
+      <label for="{{ form.apellido.id_for_label }}">Apellido</label>
+      {{ form.apellido }}
+      {{ form.apellido.errors }}
+
+      <label for="{{ form.email.id_for_label }}">Email</label>
+      {{ form.email }}
+      {{ form.email.errors }}
+
+      <label for="{{ form.departamento.id_for_label }}">Departamento</label>
+      {{ form.departamento }}
+      {{ form.departamento.errors }}
+
+      <label for="{{ form.trabajo.id_for_label }}">Puesto</label>
+      {{ form.trabajo }}
+      {{ form.trabajo.errors }}
+
+      <label for="{{ form.pais.id_for_label }}">País</label>
+      {{ form.pais }}
+      {{ form.pais.errors }}
+
+      <label for="{{ form.fecha_nac.id_for_label }}">Fecha de nacimiento</label>
+      {{ form.fecha_nac }}
+      {{ form.fecha_nac.errors }}
+
+      <label for="{{ form.observacion.id_for_label }}">Observación</label>
+      {{ form.observacion }}
+      {{ form.observacion.errors }}
+
+      <button type="submit">Guardar</button>
+    </form>
+    <a href="{% url 'lista_empleados' %}">← Volver a la lista</a>
+  </div>
+</body>
+</html>

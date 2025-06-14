@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Detalle del Empleado</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f9f9f9;
+    }
+
+    header {
+      background-color: #343a40;
+      color: #fff;
+      padding: 1rem 2rem;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      z-index: 1000;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.25rem;
+    }
+
+    header nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      margin-left: 1rem;
+    }
+
+    header nav a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 6rem auto 2rem; 
+      padding: 0 1rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+
+    thead tr {
+      background-color: #eee;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 0.6rem 1rem;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    ul li {
+      margin-bottom: 0.3rem;
+    }
+
+    .text-muted {
+      color: #666;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Detalle del Empleado</h1>
+  <nav>
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'lista_empleados' %}">Lista</a>
+  </nav>
+</header>
+
+<div class="container">
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Email</th>
+        <th>Fecha de Nacimiento</th>
+        <th>País</th>
+        <th>Puesto</th>
+        <th>Departamento</th>
+        <th>Observación</th>
+        {# La columna 'Habilidades' ha sido eliminada de aquí #}
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ empleado.nombre }}</td>
+        <td>{{ empleado.apellido }}</td>
+        <td>{{ empleado.email }}</td>
+        <td>{{ empleado.fecha_nac }}</td>
+        <td>{{ empleado.pais }}</td>
+        <td>{{ empleado.get_trabajo_display }}</td>
+        <td>{{ empleado.departamento.nombre }}</td>
+        <td>
+          {% if empleado.observacion %}
+            {{ empleado.observacion|safe }}
+          {% else %}
+            <span class="text-muted">Sin observación</span>
+          {% endif %}
+        </td>
+        {# El contenido de 'Habilidades' ha sido eliminado de aquí #}
+      </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>
