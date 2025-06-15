@@ -1,16 +1,43 @@
 from pathlib import Path
 import json 
 
+import json
+from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
+SECRET_FILE_PATH = BASE_DIR / 'secret.json'
 
-secrets_path = BASE_DIR /"secret.json"
+if not SECRET_FILE_PATH.exists():
+    raise Exception(f"El archivo secret.json no se encontró en {SECRET_FILE_PATH}. Asegúrate de que esté en la raíz de tu proyecto.")
 
-with open("secret.json") as s:
-    secrets = json.load(s)
+try:
+    with open(SECRET_FILE_PATH) as f:
+        secrets = json.loads(f.read())
+except json.JSONDecodeError:
+    raise Exception("Error al decodificar secret.json. Asegúrate de que sea un JSON válido.")
 
-SECRET_KEY = secrets["SECRET_KEY"]
+def get_secret(setting, secrets=secrets):
+    try:
+        return secrets[setting]
+    except KeyError:
+        error_msg = f"La variable '{setting}' no está definida en secret.json."
+        raise Exception(error_msg)
 
-LOGIN_URL= secrets["LOGIN_URL"]
+DEBUG = get_secret('DEBUG')
+ALLOWED_HOSTS = get_secret('ALLOWED_HOSTS')
+SECRET_KEY = get_secret('SECRET_KEY')
+LOGIN_URL = get_secret('LOGIN_URL') 
+STATIC_URL = get_secret('STATIC_URL')
+
+DATABASES = {
+    'default': {
+        'ENGINE': get_secret('DB_ENGINE'),
+        'NAME': get_secret('DB_NAME'),
+        'USER': get_secret('DB_USER'),
+        'PASSWORD': get_secret('DB_PASSWORD'),
+        'HOST': get_secret('DB_HOST'),
+        'PORT': get_secret('DB_PORT'),
+    }
+}
 
 INSTALLED_APPS = [
     'django.contrib.admin',
